@@ -1,6 +1,6 @@
 package io.github.louistsaitszho.moshicodegenbenchmark
 
-import org.junit.Assert.assertEquals
+import com.squareup.moshi.Moshi
 import org.junit.Test
 
 /**
@@ -9,8 +9,18 @@ import org.junit.Test
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 class ExampleUnitTest {
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun blockchainExchangeRate() {
+        val exchangeRateAdapter = ExchangeRateJsonAdapter(Moshi.Builder().build())
+        var totalTime: Long = 0
+        jsonStrings.forEach {
+            val startTime = System.currentTimeMillis()
+            val exchangeRate = exchangeRateAdapter.fromJson(it)
+            val endTime = System.currentTimeMillis()
+            val mills = endTime - startTime
+            totalTime += mills
+        }
+        println("It took $totalTime ms to parse all of the json")
     }
 }
